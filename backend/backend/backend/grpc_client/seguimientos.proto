@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package seguimientos;
+
+service SeguimientosService {
+    rpc ObtenerSeguimientosProcesados(SeguimientosRequest) returns (SeguimientosResponse);
+}
+
+message SeguimientosRequest {
+    string usuarios_idusuario = 1;
+}
+
+message SeguimientosResponse {
+    int32 total = 1;
+    repeated string creadores = 2;
+    string error = 3;
+}

@@ -29,7 +29,8 @@ urlpatterns = [
     path('registro', views.registro, name='registro'),
     path('creadores/mostrar', views.mostrar_creadores, name='mostrar_creadores'),
     path('usuarios/seguirCreador',views.seguirCreador,name='seguir_creador'),##con Postman
-        path('usuarios/obtenerSeguimientos/', views.obtenerSeguimientos, name='obtener_seguimientos'),##con Postman
+    path('usuarios/obtenerSeguimientos/', views.obtenerSeguimientos, name='obtener_seguimientos'),##con Postman
+    path('usuarios/seguimientos_procesados/<int:usuarios_idusuario>/', (views.seguimientos_procesados), name='seguimientos'),
 
 
 

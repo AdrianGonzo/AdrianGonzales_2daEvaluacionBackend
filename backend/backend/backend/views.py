@@ -16,6 +16,10 @@ from django.shortcuts import render
 from django.http import JsonResponse, HttpResponse
 import os
 
+import grpc
+from django.http import JsonResponse
+from backend.grpc_client import seguimientos_pb2, seguimientos_pb2_grpc
+
 
 
 
@@ -44,6 +48,27 @@ from datetime import datetime
 import logging
 
 logger = logging.getLogger(__name__)
+
+
+def seguimientos_procesados(request, usuarios_idusuario):
+    if request.method != 'GET':
+        return JsonResponse({'error': 'Método no permitido'}, status=405)
+
+    try:
+        with grpc.insecure_channel('localhost:50051') as channel:
+            stub = seguimientos_pb2_grpc.SeguimientosServiceStub(channel)
+            grpc_response = stub.ObtenerSeguimientosProcesados(
+                seguimientos_pb2.SeguimientosRequest(usuarios_idusuario=str(usuarios_idusuario))
+            )
+
+        return JsonResponse({
+            'total': grpc_response.total,
+            'creadores': list(grpc_response.creadores),
+            'error': grpc_response.error
+        })
+
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)
 
 
 
